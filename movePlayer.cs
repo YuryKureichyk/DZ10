@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class movePlayer : MonoBehaviour
 {
-    
     private Rigidbody2D _rbPlayer;
     private bool _isGround;
     public float distanceToGround = 0.6f;
@@ -10,7 +9,7 @@ public class movePlayer : MonoBehaviour
     public float jumpForce = 12f;
     private float _run;
     [SerializeField] private LayerMask groundLayer;
-    
+
 
     void Awake()
     {
@@ -20,13 +19,12 @@ public class movePlayer : MonoBehaviour
     void Update()
     {
         _run = Input.GetAxisRaw("Horizontal");
-        
+
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, distanceToGround, groundLayer);
 
         if (hit.collider != null)
         {
             _isGround = true;
-            
         }
         else
         {
@@ -41,13 +39,17 @@ public class movePlayer : MonoBehaviour
 
     void FixedUpdate()
     {
-        _rbPlayer.linearVelocity = new Vector2(_run * speed, _rbPlayer.linearVelocity.y);
+        Move();
     }
 
     void Jump()
     {
+        _rbPlayer.linearVelocity = new Vector2(_rbPlayer.linearVelocity.x, jumpForce);
+    }
+
+    void Move()
+    {
+        _rbPlayer.linearVelocity = new Vector2(_run * speed, _rbPlayer.linearVelocity.y);
         
-            _rbPlayer.linearVelocity = new Vector2(_rbPlayer.linearVelocity.x, jumpForce);
     }
 }
-
